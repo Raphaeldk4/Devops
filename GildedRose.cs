@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace GildedRoseKata;
 
@@ -30,39 +31,43 @@ public class GildedRose
                     QualityDecrease = 0;
                     break;
                 case "Backstage passes to a TAFKAL80ETC concert":
-                    if (Items[i].SellIn < 12)
-                    {
-                        QualityDecrease = 1;
-                    }
-                    if (Items[i].SellIn < 11)
-                    {
-                        QualityDecrease = 2;
-                    }
-
-                    if (Items[i].SellIn < 6)
-                    {
-                        QualityDecrease = 3;
-                    }
-                    if (Items[i].SellIn == 0)
-                    {
-                        QualityDecrease = 0;
-                        Items[i].Quality = 0;
-                    }
-                    break;
-                case "Conjured Mana Cake":
-                    if (Items[i].Quality > 0)
-                        QualityDecrease = -2;
+                    ConcertCheck(Items[i].SellIn);
                     break;
                 default:
-                    QualityDecrease = -1;
+                    if (Items[i].Name.Contains("Conjured"))
+                    {
+                        QualityDecrease = -2;
+                    }
+                    else
+                    {
+                        QualityDecrease = -1;
+                    }
                     break;
             }
             if (Items[i].SellIn < 0)
             {
                 Items[i].Quality = Items[i].Quality + QualityDecrease * 2;
             }
-
             Items[i].Quality = Items[i].Quality + QualityDecrease;
+        }
+    }
+    public void ConcertCheck(int SellIn)
+    {
+        if (SellIn < 12)
+        {
+            QualityDecrease = 1;
+        }
+        if (SellIn < 11)
+        {
+            QualityDecrease = 2;
+        }
+        if (SellIn < 6)
+        {
+            QualityDecrease = 3;
+        }
+        if (SellIn == 0)
+        {
+            QualityDecrease = 0;
         }
     }
 }
